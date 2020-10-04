@@ -15,21 +15,8 @@ DISABLE_NOTIFICATION=false
 
 
 function log {
-	echo "DEBUG: $1"
+	[ "$DEBUG" = true ] && echo "DEBUG: $1"
 }
-
-function exec_request {
-    # ARG1 - api key
-    # ARG2 - chat_id
-    # ARG3 - text
-    # ARG4 - disable_notification
-
-    curl -X POST \
-        -H 'Content-Type: application/json' \
-        -d "{\"chat_id\": \"$2\", \"text\": \"$3\", \"disable_notification\": false}" \
-        https://api.telegram.org/bot$1/sendMessage
-}
-
 
 [ -z "$TOKEN" ] && TOKEN=$TELEGRAM_TOKEN
 [ ${#CHATS[@]} -eq 0 ] && CHATS=($TELEGRAM_CHAT)
@@ -84,4 +71,11 @@ for CHAT_ID in "${CHATS[@]}"; do
 		echo "Quitting."
 		exit $status
 	fi
+
+    if [[ "$response" != '{"ok":true'* ]]; then
+        echo "Telegram reported an error:"
+        echo $response
+        echo "Quitting."
+        exit 1
+    fi
 done
