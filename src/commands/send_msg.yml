@@ -11,7 +11,7 @@ parameters:
     default: "teleorb!"
     description: "message"
   disable_notification:
-    type: bool
+    type: boolean
     default: false
     description: 'disable telegram push-notification'
 steps:
