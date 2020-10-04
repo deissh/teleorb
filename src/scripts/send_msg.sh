@@ -43,7 +43,7 @@ log "DISABLE_NOTIFICATION=$DISABLE_NOTIFICATION"
 
 shift $((OPTIND - 1))
 TEXT="$1"
-[ "$TEXT" = "" ] && TEXT=$(</dev/stdin)
+[ "$TEXT" = "--" ] && TEXT=$(</dev/stdin)
 
 log "Text: $TEXT"
 

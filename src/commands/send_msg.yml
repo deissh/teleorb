@@ -1,0 +1,25 @@
+description: Send message
+parameters:
+  token:
+    type: string
+    description: "API token from @BotFather"
+  to:
+    type: string
+    description: "ID of the chat"
+  text:
+    type: string
+    default: "teleorb!"
+    description: "message"
+  disable_notification:
+    type: bool
+    default: false
+    description: 'disable telegram push-notification'
+steps:
+  - run:
+      environment:
+        TELEGRAM_TOKEN: <<parameters.token>>
+        TELEGRAM_CHAT: <<parameters.to>>
+        TEXT: <<parameters.text>>
+        TELEGRAM_DISABLE_NOTIFICATION: <<parameters.disable_notification>>
+      name: Hello Greeting
+      command: echo -e "$TEXT" | <<include(scripts/send_msg.sh)>> --
