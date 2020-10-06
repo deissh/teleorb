@@ -58,7 +58,7 @@ for CHAT_ID in "${CHATS[@]}"; do
         response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
         status=$?
     else
-        log "Executing: curl $MY_CURL_OPTIONS"
+        echo "Executing: curl $MY_CURL_OPTIONS"
         status=0
         response='{"ok": true}'
     fi
