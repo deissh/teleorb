@@ -63,7 +63,7 @@ for CHAT_ID in "${CHATS[@]}"; do
         response='{"ok": true}'
     fi
 
-    log "Response was: $response"
+    echo "Response was: $response"
     if [ $status -ne 0 ]; then
         echo "curl reported an error. Exit code was: $status."
         echo "Response was: $response"

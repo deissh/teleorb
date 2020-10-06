@@ -1,14 +1,16 @@
 executor: default
 parameters:
   token:
-    type: string
+    type: env_var_name
+    default: TELEGRAM_TOKEN
     description: "API token from @BotFather"
   to:
-    type: string
+    type: env_var_name
+    default: TELEGRAM_CHAT
     description: "ID of the chat"
   text:
-    type: string
-    default: "teleorb!"
+    type: env_var_name
+    default: TELEGRAM_TEXT
     description: "message"
   disable_notification:
     type: boolean
