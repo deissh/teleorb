@@ -44,6 +44,7 @@ log "DISABLE_NOTIFICATION=$DISABLE_NOTIFICATION"
 shift $((OPTIND - 1))
 TEXT="$1"
 [ "$TEXT" = "--" ] && TEXT=$(</dev/stdin)
+[ -z "$TEXT" ] && [ -n "$TELEGRAM_TEXT" ] && TEXT="$TELEGRAM_TEXT"
 
 log "Text: $TEXT"
 

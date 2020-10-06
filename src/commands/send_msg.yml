@@ -19,7 +19,7 @@ steps:
       environment:
         TELEGRAM_TOKEN: <<parameters.token>>
         TELEGRAM_CHAT: <<parameters.to>>
-        TEXT: <<parameters.text>>
+        TELEGRAM_TEXT: <<parameters.text>>
         TELEGRAM_DISABLE_NOTIFICATION: <<parameters.disable_notification>>
-      name: Hello Greeting
-      command: echo -e "$TEXT" | <<include(scripts/send_msg.sh)>> --
+      name: Send message
+      command: <<include(scripts/send_msg.sh)>>
