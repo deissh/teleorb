@@ -54,6 +54,7 @@ for CHAT_ID in "${CHATS[@]}"; do
     # Entrypoint
     # Will not run if sourced for bats-core tests.
     if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
+        # shellcheck disable=SC2086
         response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
         status=$?
     else
