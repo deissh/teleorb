@@ -19,7 +19,7 @@ function log {
 }
 
 [ -z "$TOKEN" ] && TOKEN=$TELEGRAM_TOKEN
-[ ${#CHATS[@]} -eq 0 ] && CHATS+=($TELEGRAM_CHAT)
+[ ${#CHATS[@]} -eq 0 ] && CHATS=" " read -r -a array <<< "$TELEGRAM_CHAT"
 [ -n "$TELEGRAM_DISABLE_NOTIFICATION" ] && DISABLE_NOTIFICATION="$TELEGRAM_DISABLE_NOTIFICATION"
 
 if [ -z "$TOKEN" ]; then
