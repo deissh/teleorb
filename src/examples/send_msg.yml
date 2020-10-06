@@ -11,6 +11,6 @@ usage:
     use-my-orb:
       jobs:
         - teleorb/send_msg:
-          token: $TELEGRAM_TOKEN
-          to: $TELEGRAM_CHAT
-          text: 'Hello World!'
+            token: $TELEGRAM_TOKEN
+            to: $TELEGRAM_CHAT
+            text: 'Hello World!'
