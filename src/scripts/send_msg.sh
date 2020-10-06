@@ -19,7 +19,8 @@ function log {
 }
 
 [ -z "$TOKEN" ] && TOKEN=$TELEGRAM_TOKEN
-[ ${#CHATS[@]} -eq 0 ] && CHATS=($TELEGRAM_CHAT)
+[ ${#CHATS[@]} -eq 0 ] && CHATS=$TELEGRAM_CHAT
+[ -n "$TELEGRAM_DISABLE_NOTIFICATION" ] && DISABLE_NOTIFICATION="$TELEGRAM_DISABLE_NOTIFICATION"
 
 if [ -z "$TOKEN" ]; then
     echo "No bot token was given."
@@ -30,10 +31,6 @@ if [ ${#CHATS[@]} -eq 0 ]; then
     echo "No chats given."
     exit 1
 fi
-
-[ -z "$TOKEN" ] && TOKEN=$TELEGRAM_TOKEN
-[ ${#CHATS[@]} -eq 0 ] && CHATS=($TELEGRAM_CHAT)
-[ -n "$TELEGRAM_DISABLE_NOTIFICATION" ] && DISABLE_NOTIFICATION="$TELEGRAM_DISABLE_NOTIFICATION"
 
 log "TOKEN=$TOKEN"
 log "CHATS=${CHATS[*]}"
@@ -57,7 +54,7 @@ for CHAT_ID in "${CHATS[@]}"; do
     # Entrypoint
     # Will not run if sourced for bats-core tests.
     if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-        response=`curl $MY_CURL_OPTIONS $API_URL$TOKEN/sendMessage <<< $TEXT`
+        response=$(curl "$MY_CURL_OPTIONS" "$API_URL""$TOKEN"/sendMessage <<< "$TEXT")
         status=$?
     else
         log "Executing: curl $MY_CURL_OPTIONS"
@@ -75,7 +72,7 @@ for CHAT_ID in "${CHATS[@]}"; do
 
     if [[ "$response" != '{"ok":true'* ]]; then
         echo "Telegram reported an error:"
-        echo $response
+        echo "$response"
         echo "Quitting."
         exit 1
     fi
