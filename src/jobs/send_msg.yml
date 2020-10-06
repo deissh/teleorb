@@ -1,0 +1,22 @@
+executor: default
+parameters:
+  token:
+    type: string
+    description: "API token from @BotFather"
+  to:
+    type: string
+    description: "ID of the chat"
+  text:
+    type: string
+    default: "teleorb!"
+    description: "message"
+  disable_notification:
+    type: boolean
+    default: false
+    description: 'disable telegram push-notification'
+steps:
+  - send_msg:
+      token: << parameters.token >>
+      to: << parameters.to >>
+      text: << parameters.text >>
+      disable_notification: << parameters.disable_notification >>
