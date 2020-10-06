@@ -15,7 +15,7 @@ DISABLE_NOTIFICATION=false
 
 
 function log {
-	[ "$DEBUG" = true ] && echo "DEBUG: $1"
+    [ "$DEBUG" = true ] && echo "DEBUG: $1"
 }
 
 [ -z "$TOKEN" ] && TOKEN=$TELEGRAM_TOKEN
@@ -49,12 +49,12 @@ CURL_OPTIONS="$CURL_OPTIONS --form text=<-"
 [ "$DISABLE_NOTIFICATION" = true ] && CURL_OPTIONS="$CURL_OPTIONS --form-string disable_notification=true"
 
 for CHAT_ID in "${CHATS[@]}"; do
-	MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
+    MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
 
     # Entrypoint
     # Will not run if sourced for bats-core tests.
     if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-        response=$(curl "$MY_CURL_OPTIONS" "$API_URL""$TOKEN"/sendMessage <<< "$TEXT")
+        response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
         status=$?
     else
         log "Executing: curl $MY_CURL_OPTIONS"
@@ -63,12 +63,12 @@ for CHAT_ID in "${CHATS[@]}"; do
     fi
 
     log "Response was: $response"
-	if [ $status -ne 0 ]; then
-		echo "curl reported an error. Exit code was: $status."
-		echo "Response was: $response"
-		echo "Quitting."
-		exit $status
-	fi
+    if [ $status -ne 0 ]; then
+        echo "curl reported an error. Exit code was: $status."
+        echo "Response was: $response"
+        echo "Quitting."
+        exit $status
+    fi
 
     if [[ "$response" != '{"ok":true'* ]]; then
         echo "Telegram reported an error:"
