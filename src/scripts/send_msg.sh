@@ -37,6 +37,8 @@ CURL_OPTIONS="$CURL_OPTIONS --form text=<-"
 for CHAT_ID in "${CHATS[@]}"; do
     MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
 
+    echo "Executing: curl $MY_CURL_OPTIONS"
+    
     # Entrypoint
     # Will not run if sourced for bats-core tests.
     if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
@@ -44,7 +46,6 @@ for CHAT_ID in "${CHATS[@]}"; do
         response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
         status=$?
     else
-        echo "Executing: curl $MY_CURL_OPTIONS"
         status=0
         response='{"ok": true}'
     fi
