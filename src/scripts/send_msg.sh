@@ -1,4 +1,3 @@
-#!/bin/bash
 #title          :send_msg.sh
 #author         :deissh
 #version        :0.1
