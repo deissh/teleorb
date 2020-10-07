@@ -6,7 +6,6 @@ readonly API_URL=${TELEGRAM_API_URL:-"https://api.telegram.org/bot"}
 readonly ORB_TEST_ENV="bats-core"
 
 # default values
-DEBUG=false
 TOKEN=""
 CHATS=()
 CURL_OPTIONS="-s"
