@@ -19,10 +19,9 @@ steps:
       name: Send message
       shell: /bin/bash
       command: |
-        API_URL="https://api.telegram.org/bot"
         CURL_OPTIONS="-s"
         
-        TEXT="$TELEGRAM_TEXT"
+        TEXT="<<parameters.text>>"
         TOKEN="<<parameters.token>>"
         CHAT_ID="<<parameters.to>>"
         DISABLE_NOTIFICATION="<<parameters.disable_notification>>"
@@ -42,7 +41,7 @@ steps:
         
         MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
       
-        response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
+        response=$(curl $MY_CURL_OPTIONS "https://api.telegram.org/bot$TOKEN/sendMessage" \<<< "$TEXT")
         status=$?
     
         if [ $status -ne 0 ]; then
