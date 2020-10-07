@@ -24,7 +24,7 @@ steps:
       name: Send message
       shell: /bin/bash
       command: |
-        API_URL=${TELEGRAM_API_URL:-"https://api.telegram.org/bot"}
+        API_URL="https://api.telegram.org/bot"
         CURL_OPTIONS="-s"
         
         TEXT="$TELEGRAM_TEXT"
