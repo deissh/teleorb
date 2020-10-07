@@ -27,10 +27,11 @@ if [ ${#CHATS[@]} -eq 0 ]; then
     exit 1
 fi
 
-
-shift $((OPTIND - 1))
-TEXT="$1"
-[ -z "$TEXT" ] && [ -n "$TELEGRAM_TEXT" ] && TEXT="$TELEGRAM_TEXT"
+[ -n "$TELEGRAM_TEXT" ] && TEXT="$TELEGRAM_TEXT"
+if [ ${#CHATS[@]} -eq 0 ]; then
+    echo "No text given."
+    exit 1
+fi
 
 CURL_OPTIONS="$CURL_OPTIONS --form text=<-"
 [ "$DISABLE_NOTIFICATION" = true ] && CURL_OPTIONS="$CURL_OPTIONS --form-string disable_notification=true"
@@ -39,7 +40,7 @@ for CHAT_ID in "${CHATS[@]}"; do
     MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
 
     echo "Executing: curl $MY_CURL_OPTIONS"
-    echo "$API_URL:$TOKEN/sendMessage"
+    echo "$API_URL$TOKEN/sendMessage"
     
     # Entrypoint
     # Will not run if sourced for bats-core tests.

@@ -22,4 +22,4 @@ steps:
         TELEGRAM_TEXT: <<parameters.text>>
         TELEGRAM_DISABLE_NOTIFICATION: <<parameters.disable_notification>>
       name: Send message
-      command: <<include(scripts/send_msg.sh)>>
+      command: scripts/send_msg.sh
