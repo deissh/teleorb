@@ -30,8 +30,8 @@ steps:
           exit 1
         fi
 
-        if [ ${#CHATS[@]} -eq 0 ]; then
-          echo "No chats given."
+        if [ -z "$CHAT_ID" ]; then
+          echo "No chat given."
           exit 1
         fi
 
