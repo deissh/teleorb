@@ -39,6 +39,7 @@ for CHAT_ID in "${CHATS[@]}"; do
     MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
 
     echo "Executing: curl $MY_CURL_OPTIONS"
+    echo "$API_URL:$TOKEN/sendMessage"
     
     # Entrypoint
     # Will not run if sourced for bats-core tests.
@@ -51,7 +52,6 @@ for CHAT_ID in "${CHATS[@]}"; do
         response='{"ok": true}'
     fi
 
-    echo "Response was: $response"
     if [ $status -ne 0 ]; then
         echo "curl reported an error. Exit code was: $status."
         echo "Response was: $response"
