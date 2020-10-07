@@ -20,37 +20,36 @@ steps:
       shell: /bin/bash
       command: |
         CURL_OPTIONS="-s"
-        
         TEXT="<<parameters.text>>"
         TOKEN="<<parameters.token>>"
         CHAT_ID="<<parameters.to>>"
         DISABLE_NOTIFICATION="<<parameters.disable_notification>>"
-        
+
         if [ -z "$TOKEN" ]; then
           echo "No bot token was given."
           exit 1
         fi
-        
+
         if [ ${#CHATS[@]} -eq 0 ]; then
           echo "No chats given."
           exit 1
         fi
-        
+
         CURL_OPTIONS="$CURL_OPTIONS --form text=<-"
         [ "$DISABLE_NOTIFICATION" = true ] && CURL_OPTIONS="$CURL_OPTIONS --form-string disable_notification=true"
-        
+
         MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
-      
+
         response=$(curl $MY_CURL_OPTIONS "https://api.telegram.org/bot$TOKEN/sendMessage" \<<< "$TEXT")
         status=$?
-    
+
         if [ $status -ne 0 ]; then
           echo "curl reported an error. Exit code was: $status."
           echo "Response was: $response"
           echo "Quitting."
           exit $status
         fi
-    
+
         if [[ "$response" != '{"ok":true'* ]]; then
           echo "Telegram reported an error:"
           echo "$response"
