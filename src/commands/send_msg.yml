@@ -16,11 +16,6 @@ parameters:
     description: 'disable telegram push-notification'
 steps:
   - run:
-      environment:
-        TELEGRAM_TOKEN: <<parameters.token>>
-        TELEGRAM_CHAT: <<parameters.to>>
-        TELEGRAM_TEXT: <<parameters.text>>
-        TELEGRAM_DISABLE_NOTIFICATION: <<parameters.disable_notification>>
       name: Send message
       shell: /bin/bash
       command: |
@@ -28,9 +23,9 @@ steps:
         CURL_OPTIONS="-s"
         
         TEXT="$TELEGRAM_TEXT"
-        TOKEN="$TELEGRAM_TOKEN"
-        CHATS=( $TELEGRAM_CHAT )
-        DISABLE_NOTIFICATION="$TELEGRAM_DISABLE_NOTIFICATION"
+        TOKEN="<<parameters.token>>"
+        CHAT_ID="<<parameters.to>>"
+        DISABLE_NOTIFICATION="<<parameters.disable_notification>>"
         
         if [ -z "$TOKEN" ]; then
           echo "No bot token was given."
@@ -45,23 +40,21 @@ steps:
         CURL_OPTIONS="$CURL_OPTIONS --form text=<-"
         [ "$DISABLE_NOTIFICATION" = true ] && CURL_OPTIONS="$CURL_OPTIONS --form-string disable_notification=true"
         
-        for CHAT_ID in "${CHATS[@]}"; do
-          MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
+        MY_CURL_OPTIONS="$CURL_OPTIONS --form-string chat_id=$CHAT_ID"
       
-          response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
-          status=$?
-      
-          if [ $status -ne 0 ]; then
-            echo "curl reported an error. Exit code was: $status."
-            echo "Response was: $response"
-            echo "Quitting."
-            exit $status
-          fi
-      
-          if [[ "$response" != '{"ok":true'* ]]; then
-            echo "Telegram reported an error:"
-            echo "$response"
-            echo "Quitting."
-            exit 1
-          fi
-        done      
+        response=$(curl $MY_CURL_OPTIONS "$API_URL$TOKEN/sendMessage" <<< "$TEXT")
+        status=$?
+    
+        if [ $status -ne 0 ]; then
+          echo "curl reported an error. Exit code was: $status."
+          echo "Response was: $response"
+          echo "Quitting."
+          exit $status
+        fi
+    
+        if [[ "$response" != '{"ok":true'* ]]; then
+          echo "Telegram reported an error:"
+          echo "$response"
+          echo "Quitting."
+          exit 1
+        fi
